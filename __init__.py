@@ -42,5 +42,8 @@ def init(cbpi):
             telegram = "OK"
 @cbpi.event("MESSAGE", async=True)
 def messageEvent(message):
+    telegramData = {}
+    telegramData["chat_id"] = telegram_chatid
+    telegramData["message"] = message["message"]
     cbpi.app.logger.info("Sending Notification" + telegram_token + telegram_chatid + message)
-    requests.post("https://api.telegram.org/bot{}/sendMessage?text={}&chat_id={}".format(telegram_token,message,telegram_chatid))
+    requests.post("https://api.telegram.org/bot{}/sendMessage?text={}&chat_id={}", data=telegramData)
