@@ -46,4 +46,4 @@ def messageEvent(message):
     telegramData["chat_id"] = telegram_chatid
     telegramData["message"] = message["message"]
     cbpi.app.logger.info("Sending Notification" + telegram_token + telegram_chatid + message)
-    requests.post("https://api.telegram.org/bot{}/sendMessage?text={}&chat_id={}", data=telegramData)
+    requests.post("https://api.telegram.org/bot{}/sendMessage?text={}&chat_id={}", json=telegramData)
