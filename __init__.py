@@ -4,7 +4,7 @@ import logging
 import time
 import requests
 
-Telegram_token = None
+telegram_token = None
 telegram_user = None
 telegram = None
 
@@ -32,8 +32,8 @@ def telegramChatID():
 def init(cbpi):
     global telegram
     cbpi.app.logger.info("INITIALIZE Telegram PLUGIN")
-    telegramChatID()
     telegramToken()
+    telegramChatID()
     if telegram_token is None or not telegram_token:
             cbpi.notify("Telegram Error", "Check Telegram API Token is set", type="danger", timeout=None)
     elif telegram_chatid is None or not telegram_chatid:
