@@ -34,6 +34,15 @@ def init(cbpi):
     cbpi.app.logger.info("INITIALIZE Telegram PLUGIN")
     telegramChatID()
     telegramToken()
+    if telegram_token is None or not telegram_token:
+            cbpi.notify("Telegram Error", "Check Telegram API Token is set", type="danger", timeout=None)
+    elif telegram_chatid is None or not telegram_chatid:
+            cbpi.notify("Telegram Error", "Check Telegram Chat ID is set", type="danger", timeout=None)
+    else:
+            telegram = "OK"
+
+
+
 #    if telegram_token is None or not telegram_token:
 #        cbpi.notify("Telegram Error","Check Telegram API Token is set", type="danger", timeout=None)
 #    elif telegram_chatid is None or not telegram_chatid:
