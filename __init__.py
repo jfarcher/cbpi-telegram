@@ -40,17 +40,7 @@ def init(cbpi):
             cbpi.notify("Telegram Error", "Check Telegram Chat ID is set", type="danger", timeout=None)
     else:
             telegram = "OK"
-
-
-
-#    if telegram_token is None or not telegram_token:
-#        cbpi.notify("Telegram Error","Check Telegram API Token is set", type="danger", timeout=None)
-#    elif telegram_chatid is None or not telegram_chatid:
-#        cbpi.notify("Telegram Error", "Check Telegram chat ID is set", type="danger", timeout=None)
-#    else:
-    telegram = "OK"
-
 @cbpi.event("MESSAGE", async=True)
 def messageEvent(message):
-    requests.post("https://api.telegram.org/bot{}/sendMessage?text={}&chat_id={}".format(telegram_token,message,telegram_chatid))
     cbpi.app.logger.info("Sending Notification" + telegram_token + telegram_chatid + message)
+    requests.post("https://api.telegram.org/bot{}/sendMessage?text={}&chat_id={}".format(telegram_token,message,telegram_chatid))
