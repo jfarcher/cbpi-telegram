@@ -2,28 +2,29 @@ from modules import app, cbpi
 from thread import start_new_thread
 import logging
 import time
-import telegram
+import requests
 
 Telegram_token = None
 telegram_user = None
 telegram = None
+
 def telegramToken():
     global Telegram_token
-    telegram_token = cbpi.get_config_parameter("telegram_token",None)
-    if Telegram_token is None:
+    telegram_token = cbpi.get_config_parameter("telegram_token", None)
+    if telegram_token is None:
         print "INIT Telegram Token"
         try:
             cbpi.add_config_parameter("telegram_token", "", "text", "Telegram API Token")
         except:
             cbpi.notify("Telegram Error", "Unable to update database. Update CraftBeerPi and Reboot.", type="danger", timeout=None)
 
-def telegramUser():
-    global telegram_user
-    telegram_user = cbpi.get_config_parameter("telegram_user", None)
-    if telegram_user is None:
-        print "INIT Telegram User Key"
+def telegramChatID():
+    global telegram_chatid
+    telegram_chatid = cbpi.get_config_parameter("telegram_chatid", None)
+    if telegram_chatid is None:
+        print "INIT Telegram Chat ID"
         try:
-            cbpi.add_config_parameter("telegram_user", "", "text", "Telegram User Key")
+            cbpi.add_config_parameter("telegram_chatid", "", "text", "Telegram Chat ID")
         except:
             cbpi.notify("Telegram Error", "Unable to update database. Update CraftBeerPi and reboot.", type="danger", timeout=None)
 
@@ -31,16 +32,16 @@ def telegramUser():
 def init(cbpi):
     global telegram
     cbpi.app.logger.info("INITIALIZE Telegram PLUGIN")
-    telegramUser()
+    telegramChatID()
     telegramToken()
-    if telegram_token is None or not telegram_token:
-        cbpi.notify("Telegram Error", "Check Telegram API Token is set", type="danger", timeout=None)
-    elif telegram_user is None or not telegram_user:
-        cbpi.notify("Telegram Error", "Check Telegram User Key is set", type="danger", timeout=None)
-    else:
-        telegram = "OK"
+#    if telegram_token is None or not telegram_token:
+#        cbpi.notify("Telegram Error","Check Telegram API Token is set", type="danger", timeout=None)
+#    elif telegram_chatid is None or not telegram_chatid:
+#        cbpi.notify("Telegram Error", "Check Telegram chat ID is set", type="danger", timeout=None)
+#    else:
+    telegram = "OK"
 
 @cbpi.event("MESSAGE", async=True)
 def messageEvent(message):
-  bot = telegram.Bot(token=telegram_token)
-  bot.sendMessage(chat_id=telegram_user, text=message)
+    requests.post("https://api.telegram.org/bot{}/sendMessage?text={}&chat_id={}".format(telegram_token,message,telegram_chatid))
+    cbpi.app.logger.info("Sending Notification")
