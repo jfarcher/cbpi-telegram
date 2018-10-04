@@ -21,6 +21,7 @@ def telegramToken():
 def telegramChatID():
     global telegram_chatid
     telegram_chatid = cbpi.get_config_parameter("telegram_chatid", None)
+    cbpi.app.logger.info(telegram_chatid)
     if telegram_chatid is None:
         print "INIT Telegram Chat ID"
         try:
@@ -46,4 +47,4 @@ def messageEvent(message):
     telegramData["chat_id"] = telegram_chatid
     telegramData["message"] = message["message"]
     cbpi.app.logger.info("Sending Notification" + telegram_token + telegram_chatid + message)
-    requests.post("https://api.telegram.org/bot{}/sendMessage?text={}&chat_id={}", json=telegramData)
+    requests.post("https://api.telegram.org/bot{}/sendMessage/", json=telegramData)
