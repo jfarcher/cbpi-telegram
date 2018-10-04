@@ -11,6 +11,7 @@ telegram = None
 def telegramToken():
     global Telegram_token
     telegram_token = cbpi.get_config_parameter("telegram_token", None)
+    cbpi.app.logger.info(telegram_token)
     if telegram_token is None:
         print "INIT Telegram Token"
         try:
@@ -21,7 +22,6 @@ def telegramToken():
 def telegramChatID():
     global telegram_chatid
     telegram_chatid = cbpi.get_config_parameter("telegram_chatid", None)
-    cbpi.app.logger.info(telegram_chatid)
     if telegram_chatid is None:
         print "INIT Telegram Chat ID"
         try:
